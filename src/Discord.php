@@ -53,6 +53,19 @@ class Discord
     {
         return $this->request('POST', 'channels/'.$channel.'/messages', $data);
     }
+    
+    /**
+     * Send a message to a Discord channel.
+     *
+     * @param string $channel
+     * @param string $messageId
+     *
+     * @return array
+     */
+    public function deleteMessage($channel, $messageId)
+    {
+        return $this->request('DELETE', 'channels/'.$channel.'/messages/'.$messageId, []);
+    }
 
     /**
      * Get a private channel with another Discord user from their snowflake ID.
