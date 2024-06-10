@@ -106,12 +106,15 @@ class Discord
         $url = rtrim($this->baseUrl, '/').'/'.ltrim($endpoint, '/');
 
         try {
-            $response = $this->httpClient->request($verb, $url, [
+            $requestData = [
                 'headers' => [
                     'Authorization' => 'Bot '.$this->token,
-                ],
-                'json' => $data,
-            ]);
+                ]];
+            if ( $data != null )
+            {
+                $requestData['json'] = $data;
+            }
+            $response = $this->httpClient->request($verb, $url, $requestData);
         } catch (RequestException $exception) {
             if ($response = $exception->getResponse()) {
                 throw CouldNotSendNotification::serviceRespondedWithAnHttpError($response, $response->getStatusCode(), $exception);
@@ -124,7 +127,7 @@ class Discord
 
         $body = json_decode($response->getBody(), true);
 
-        if (Arr::get($body, 'code', 0) > 0) {
+        if (Arr::has($body, 'code') && Arr::get($body, 'code', 0) > 0) {
             throw CouldNotSendNotification::serviceRespondedWithAnApiError($body, $body['code']);
         }
 
