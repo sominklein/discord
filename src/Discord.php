@@ -81,6 +81,28 @@ class Discord
     /**
      * Get a private channel with another Discord user from their snowflake ID.
      *
+     * @param string $guildId
+     * @param string $userId
+     *
+     * @return bool
+     */
+    public function getHasJoinedGuild( $guildId, $userId)
+    {
+        try
+        {
+            $result = $this->request('GET', 'guilds/'.$guildId.'/members/'.$userId, []);
+            return isset($result['user'])
+        }
+        catch (Exception $ex)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Get a private channel with another Discord user from their snowflake ID.
+     *
      * @param string $userId
      *
      * @return string
