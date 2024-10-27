@@ -91,7 +91,7 @@ class Discord
         try
         {
             $result = $this->request('GET', 'guilds/'.$guildId.'/members/'.$userId, []);
-            return isset($result['user'])
+            return isset($result['user']);
         }
         catch (Exception $ex)
         {
